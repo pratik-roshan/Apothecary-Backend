@@ -11,4 +11,5 @@ urlpatterns = [
     path('', Flower_Lists.as_view()),
     path('floinfo/<int:pk>', views.flower_detail),
     path('floinfo/', views.flower_list),
+    path('index/<int:pk>', views.PlantDetailsView.as_view()),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

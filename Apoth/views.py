@@ -5,6 +5,9 @@ from rest_framework import generics
 from rest_framework.renderers import JSONOpenAPIRenderer
 from django.http import HttpResponse
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.response import Response
+
+from django.db.models import Q
 
 
 # Model Object -Single Flower Data
@@ -27,8 +30,14 @@ def flower_list(request):
     Json_data = JSONOpenAPIRenderer().render(serializer.data)
     return HttpResponse(Json_data)
 
+class PlantDetailsView(generics.RetrieveAPIView):
+    queryset = Flower.objects.all()
+    serializer_class = FlowerSerializer
 
-from django.db.models import Q
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 def flower_details(request):
     query = request.GET.get('query')
